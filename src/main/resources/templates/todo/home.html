@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<h1>Home</h1>
+<p th:if="${todos.isEmpty()}">Aucun todo!</p>
+<table th:unless="${todos.isEmpty()}">
+    <thead>
+    <tr>Détails de mes Todo</tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${todos}">
+        <td>
+            <p th:text="${t.getName()}"></p>
+            <p th:text="${t.getDescription()}"></p>
+            <p>Status : <span th:text="${t.getStatus().name()}"></span></p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
