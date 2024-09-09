@@ -1,4 +1,4 @@
-package com.jeido.exercisespring.entities;
+package com.jeido.exercisespring.models;
 
 public enum Status {
     NOT_STARTED,

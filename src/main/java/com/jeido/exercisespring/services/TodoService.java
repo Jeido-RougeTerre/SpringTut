@@ -1,31 +1,27 @@
 package com.jeido.exercisespring.services;
 
-import com.jeido.exercisespring.entities.Status;
-import com.jeido.exercisespring.entities.Todo;
-import lombok.Getter;
+import com.jeido.exercisespring.models.Status;
+import com.jeido.exercisespring.models.Todo;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-@Getter
 @Service
 public class TodoService {
-    private final List<Todo> allTodos = new ArrayList<>();
+    private final Map<UUID, Todo> allTodos = new HashMap<>();
 
     public Todo createTodo(String name, String desc, Status status) {
-        Todo todo = new Todo(name, desc, status);
-        allTodos.add(todo);
+        UUID id = UUID.randomUUID();
+        Todo todo = new Todo(id, name, desc, status);
+        allTodos.put(id, todo);
         return todo;
     }
 
-    public Todo getTodo(String name) {
-        for (Todo t : allTodos) {
-            if (t.getName().equals(name)) {
-                return t;
-            }
-        }
+    public Todo getTodo(UUID id) {
+        return allTodos.get(id);
+    }
 
-        return null;
+    public List<Todo> getAllTodos() {
+        return allTodos.values().stream().toList();
     }
 }

@@ -2,24 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Liste des Todo</title>
 </head>
 <body>
-<h1>Home</h1>
-<p th:if="${todos.isEmpty()}">Aucun todo!</p>
-<table th:unless="${todos.isEmpty()}">
-    <thead>
-    <tr>Détails de mes Todo</tr>
-    </thead>
-    <tbody>
-    <tr th:each="t : ${todos}">
-        <td>
-            <p th:text="${t.getName()}"></p>
-            <p th:text="${t.getDescription()}"></p>
-            <p>Status : <span th:text="${t.getStatus().name()}"></span></p>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<main>
+    <p th:if="${todos.isEmpty()}">Aucun todo!</p>
+    <table th:unless="${todos.isEmpty()}">
+        <caption>Get into <a th:href="@{/todos}">Json format</a></caption>
+        <thead>
+        <tr>Détails de mes Todo</tr>
+        </thead>
+        <tbody>
+        <tr th:each="t : ${todos}">
+            <td>
+                <a th:href="@{/todo/{id}(id=${t.getId()})}">
+                    <p th:text="${t.getName()}"></p>
+                    <p th:text="${t.getDescription()}"></p>
+                    <p>Status : <span th:text="${t.getStatus().name()}"></span></p>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
 </body>
 </html>

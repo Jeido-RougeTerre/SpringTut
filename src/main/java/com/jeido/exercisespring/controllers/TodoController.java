@@ -1,17 +1,19 @@
 package com.jeido.exercisespring.controllers;
 
-import com.jeido.exercisespring.entities.Status;
-import com.jeido.exercisespring.entities.Todo;
+import com.jeido.exercisespring.models.Status;
+import com.jeido.exercisespring.models.Todo;
 import com.jeido.exercisespring.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.UUID;
 
-@Controller
+@Controller("/todo")
 public class TodoController {
     private final TodoService service;
 
@@ -40,27 +42,21 @@ public class TodoController {
         );
     }
 
-    @RequestMapping("one")
-    public String getOneTodo(Model model) {
-        Todo t = service.getTodo("macarons");
-        model.addAttribute("name", t.getName());
-        model.addAttribute("description", t.getDescription());
-        model.addAttribute("status", t.getStatus().name());
+    @RequestMapping("/todo/{id}")
+    public String getOneTodo(@PathVariable("id") UUID id, Model model) {
+        Todo todo = service.getTodo(id);
+        model.addAttribute("todo", todo);
         return "todo/detail";
     }
 
-    @RequestMapping("all")
+    @RequestMapping("/todo/list")
     @ResponseBody
     public List<Todo> getAllTodos() {
         return service.getAllTodos();
     }
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        return home(model);
-    }
 
-    @RequestMapping("home")
+    @RequestMapping("/todo")
     public String home(Model model) {
         model.addAttribute("todos", service.getAllTodos());
         return "todo/home";
