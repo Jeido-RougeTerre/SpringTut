@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Detail</title>
 </head>
 <body>
+<header th:replace="~{components/nav}"></header>
 
+<main>
+    <div th:unless="${student == null}">
+        <h1><span th:text="${student.getName()}"></span> <span th:text="${student.getSurname()}"></span></h1>
+        <hr>
+        <p><span th:text="${student.getAge()}"></span>yo</p>
+        <p>email: <a th:href="@{mailto:{mail}(mail=${student.getEmail()})}" th:text="${student.getEmail()}"></a></p>
+    </div>
+    <div th:if="${student == null}">
+        <h1>Unknown Student</h1>
+    </div>
+</main>
 </body>
 </html>

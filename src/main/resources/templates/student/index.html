@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <span th:replace="~{components/BootstrapImports}"></span>
 </head>
 <body>
-
+<header th:replace="~{components/nav}"></header>
+<main>
+    <div>
+        <form class="d-flex" th:action="@{/student/search}" method="post">
+            <input class="form-control me-2" placeholder="Search..." aria-label="Search" type="text" id="name" name="search">
+            <button class="btn btn-outline-success">🔎</button>
+        </form>
+    </div>
+    <div>
+        <a class="btn btn-outline-success" th:href="@{student/register}">register a student</a>
+    </div>
+    <div class="container">
+        <h1 th:unless='${mode.equals("search")}'>Student List</h1>
+        <h1 th:if='${mode.equals("search")}'>Results (<span th:text="${students.size()}"></span>) :</h1>
+        <table th:unless="${students == null || students.isEmpty()}" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Last Name</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">email</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${students}">
+                <td th:text="${s.getSurname()}"></td>
+                <td th:text="${s.getName()}"></td>
+                <td th:text="${s.getAge()}"></td>
+                <td th:text="${s.getEmail()}"></td>
+                <td><a th:href="@{/student/{id}(id=${s.getId()})}" class="btn btn-outline-info">🔎</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if='${mode.equals("search") && (students == null || students.isEmpty())}'>
+            No Students matched your Research.
+        </p>
+        <p th:if='${!mode.equals("search") && (students == null || students.isEmpty())}'>No Student Yet</p>
+    </div>
+</main>
 </body>
 </html>

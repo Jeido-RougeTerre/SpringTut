@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des Todo</title>
+    <title>Todo List</title>
 </head>
 <body>
+<header th:replace="~{components/nav}"></header>
 <main>
-    <p th:if="${todos.isEmpty()}">Aucun todo!</p>
+    <p th:if="${todos.isEmpty()}">No todo yet!</p>
     <table th:unless="${todos.isEmpty()}">
-        <caption>Get into <a th:href="@{/todos}">Json format</a></caption>
+        <caption>Get into <a th:href="@{/todo/list}">Json format</a></caption>
         <thead>
-        <tr>Détails de mes Todo</tr>
+        <tr>Todo - Details</tr>
         </thead>
         <tbody>
         <tr th:each="t : ${todos}">

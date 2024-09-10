@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${todo.getName()}"></title>
+    <title th:text="${todo.getName()} - Details"></title>
 </head>
 <body>
-<h1 th:text="${todo.getName()}"></h1>
-<hr>
-<p th:text="${todo.getDescription()}"></p>
-<p>Status : <span th:text="${todo.getStatus().name()}"></span></p>
+<header th:replace="~{components/nav}"></header>
+<main>
+    <h1 th:text="${todo.getName()}"></h1>
+    <hr>
+    <p th:text="${todo.getDescription()}"></p>
+    <p>Status : <span th:text="${todo.getStatus().name()}"></span></p>
+</main>
 </body>
 </html>

@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 <th:block th:fragment="navImports">
-    <nav class="one">
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/todo}">ToDo</a>
-        <a th:href="@{/student}">Students</a>
-    </nav>
+    <header>
+        <nav class="one">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/todo}">ToDo</a>
+            <a th:href="@{/student}">Students</a>
+        </nav>
+    </header>
 </th:block>
 </body>
 </html>
