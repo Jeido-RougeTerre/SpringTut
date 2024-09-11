@@ -1,0 +1,18 @@
+:root{
+    --nf-input-size: 1rem;
+}
+
+input[type="search"]:placeholder-shown {
+    transition: all 0.15s ease-in;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E");
+    background-position: left calc(var(--nf-input-size) * 0.75) bottom 50%;
+    padding-left: calc(var(--nf-input-size) * 2.25);
+    background-size: var(--nf-input-size);
+    background-repeat: no-repeat;
+}
+
+input[type="search"]:focus {
+    transition: all 0.15s ease-out;
+    background-size: 0;
+    padding-left: var(--nf-input-size);
+}
