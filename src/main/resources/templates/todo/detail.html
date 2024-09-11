@@ -2,15 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${todo.getName()} - Details"></title>
+    <title th:if="${todo != null}" th:text='${todo.getName().concat(" - Details")}'></title>
+    <title th:if="${todo == null}">Unknown Todo</title>
 </head>
 <body>
 <header th:replace="~{components/nav}"></header>
 <main>
-    <h1 th:text="${todo.getName()}"></h1>
-    <hr>
-    <p th:text="${todo.getDescription()}"></p>
-    <p>Status : <span th:text="${todo.getStatus().name()}"></span></p>
+    <div th:unless="${todo == null}">
+        <h1 th:text="${todo.getName()}"></h1>
+        <hr>
+        <p th:text="${todo.getDescription()}"></p>
+        <p>Status : <span th:text="${todo.getStatus().name()}"></span></p>
+    </div>
+    <div th:if="${todo == null}">
+        <h1>Unknown Todo</h1>
+    </div>
 </main>
 </body>
 </html>
