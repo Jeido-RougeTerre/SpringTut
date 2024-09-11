@@ -31,4 +31,12 @@ public class StudentService {
         return students.values().stream().filter(student ->
                 student.getSurname().toLowerCase().concat(" " + student.getName().toLowerCase()).contains(name.toLowerCase())).toList();
     }
+
+    public boolean deleteStudent(UUID id) {
+        return students.remove(id) != null;
+    }
+
+    public Student updateStudent(UUID id, Student student) {
+        return students.put(id, student);
+    }
 }

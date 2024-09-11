@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <span th:replace="~{components/BootstrapImports}"></span>
+    <link th:replace="~{components/BootstrapImports}">
 
 </head>
 <body>
@@ -19,7 +19,7 @@
             <input type="text" class="form-control" id="surname" th:field="*{surname}">
         </div>
         <div>
-            <label for="name" class="form-label">age</label>
+            <label for="age" class="form-label">age</label>
             <input type="number" class="form-control" id="age" th:field="*{age}">
         </div>
         <div class="mb-3">

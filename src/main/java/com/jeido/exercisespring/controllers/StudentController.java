@@ -38,6 +38,7 @@ public class StudentController {
     public String student(@PathVariable("id")UUID id, Model model) {
         Student student = studentService.getStudent(id);
         model.addAttribute("student", student);
+        model.addAttribute("mode", "info");
         return "student/details";
     }
 
@@ -60,6 +61,28 @@ public class StudentController {
     @PostMapping("/student/search")
     public String searchPost(@ModelAttribute("search")String name) {
         return "redirect:/student?search=" + name;
+    }
+
+    @GetMapping("/student/delete/{id}")
+    public String deleteStudent(@PathVariable("id") UUID id) {
+        studentService.deleteStudent(id);
+        return "redirect:/student";
+    }
+
+    @GetMapping("/student/edit/{id}")
+    public String editStudent(@PathVariable("id") UUID id, Model model) {
+        Student student = studentService.getStudent(id);
+        model.addAttribute("student", student);
+        model.addAttribute("mode", "edit");
+        return "student/details";
+    }
+
+    @PostMapping("/student/edit/{id}")
+    public String studentEdit(@PathVariable("id") UUID id, @ModelAttribute("student") Student student, Model model) {
+        studentService.updateStudent(id, student);
+        model.addAttribute("student", student);
+        model.addAttribute("mode", "info");
+        return "redirect:/student/" + id;
     }
 
 
