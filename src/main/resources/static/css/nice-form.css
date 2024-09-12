@@ -21,3 +21,7 @@ input[type="search"]:focus {
 span.error {
     color: var(--nf-error-color);
 }
+
+input.error {
+    border-color: var(--nf-error-color);
+}
