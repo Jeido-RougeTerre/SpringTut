@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
-    List<Student> findByNameOrSurname(String name, String surname);
+    List<Student> findByNameIgnoreCaseOrSurnameIgnoreCase(String name, String surname);
 }

@@ -28,7 +28,7 @@ public class StudentService {
     }
 
     public List<Student> findByNameOrSurname(String search) {
-        return studentRepository.findByNameOrSurname(search, search);
+        return studentRepository.findByNameIgnoreCaseOrSurnameIgnoreCase(search, search);
     }
 
     public void delete(UUID id) {
@@ -37,7 +37,7 @@ public class StudentService {
         studentRepository.delete(student);
     }
 
-    public Student update(UUID id, Student student) {
+    public Student update(Student student) {
         return studentRepository.save(student);
     }
 }

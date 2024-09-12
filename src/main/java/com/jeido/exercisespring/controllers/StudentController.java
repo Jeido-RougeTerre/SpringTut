@@ -98,7 +98,7 @@ public class StudentController {
             model.addAttribute("action", "/student/edit/" + student.getId());
             return "student/details";
         }
-        Student updatedStudent = studentService.update(id, student);
+        Student updatedStudent = studentService.update(student);
         model.addAttribute("student", updatedStudent);
         model.addAttribute("mode", "info");
         model.addAttribute("action", "");
