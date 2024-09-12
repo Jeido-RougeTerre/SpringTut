@@ -4,42 +4,39 @@
     <meta charset="UTF-8">
     <title>Detail</title>
     <link th:replace="~{components/BootstrapImports}">
+    <link href="/css/nice-form.css" rel="stylesheet">
 </head>
 <body>
 <header th:replace="~{components/nav}"></header>
 
 <main>
     <div th:unless="${student == null}">
-        <div class="container" th:if='${mode.equals("info")}'>
-            <h1><span th:text="${student.getName()}"></span> <span th:text="${student.getSurname()}"></span> <a class="btn" th:href="@{/student/edit/{id}(id=${student.getId()})}">✏</a> <a class="btn" th:href="@{/student/delete/{id}(id=${student.getId()})}">🗑</a> </h1>
-            <hr>
-            <p><span th:text="${student.getAge()}"></span>yo</p>
-            <p>email: <a th:href="@{mailto:{mail}(mail=${student.getEmail()})}" th:text="${student.getEmail()}"></a></p>
-        </div>
-        <div class="container" th:unless='${mode.equals("info")}'>
-            <form th:action="@{/student/edit/{id}(id=${student.getId()})}" th:object="${student}" method="post">
+        <div class="container">
+            <form th:action="${action}" th:object="${student}" th:method="${mode.equals('info')} ? 'get' : 'post'">
                 <div class="mb-3">
                     <label for="name" class="form-label">FirstName</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}">
+                    <input type="text" class="form-control" id="name" th:field="*{name}" th:readonly="${mode.equals('info')}">
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
 
                 </div>
                 <div class="mb-3">
                     <label for="surname" class="form-label">LastName</label>
-                    <input type="text" class="form-control" id="surname" th:field="*{surname}">
+                    <input type="text" class="form-control" id="surname" th:field="*{surname}" th:readonly="${mode.equals('info')}">
                     <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error"></span>
                 </div>
                 <div>
                     <label for="age" class="form-label">age</label>
-                    <input type="number" class="form-control" id="age" th:field="*{age}">
+                    <input type="number" class="form-control" id="age" th:field="*{age}" th:readonly="${mode.equals('info')}">
                     <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="error"></span>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">email</label>
-                    <input type="email" class="form-control" id="email" th:field="*{email}">
+                    <input type="email" class="form-control" id="email" th:field="*{email}" th:readonly="${mode.equals('info')}">
                     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
                 </div>
-                <button type="submit" class="btn btn-primary">Modify</button>
+                <button th:if="${mode.equals('edit')}" type="submit" class="btn btn-primary">Save Changes</button>
+                <button th:if="${mode.equals('add')}" type="submit" class="btn btn-primary">Register</button>
+                <span th:if="${mode.equals('info')}"><a class="btn" th:href="@{/student/edit/{id}(id=${student.getId()})}">✏</a> <a class="btn" th:href="@{/student/delete/{id}(id=${student.getId()})}">🗑</a></span>
             </form>
         </div>
     </div>

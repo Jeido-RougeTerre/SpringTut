@@ -1,6 +1,6 @@
 :root{
     --nf-input-size: 1rem;
-    --nf-error-color: brown;
+    --nf-error-color: red;
 }
 
 input[type="search"]:placeholder-shown {
@@ -16,11 +16,6 @@ input[type="search"]:focus {
     transition: all 0.15s ease-out;
     background-size: 0;
     padding-left: var(--nf-input-size);
-}
-
-input~span.error {
-    color: var(--nf-error-color);
-    border-color: var(--nf-error-color);
 }
 
 span.error {

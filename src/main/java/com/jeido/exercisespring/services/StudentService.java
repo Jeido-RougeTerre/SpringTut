@@ -1,6 +1,7 @@
 package com.jeido.exercisespring.services;
 
-import com.jeido.exercisespring.models.Student;
+import com.jeido.exercisespring.dao.StudentRepository;
+import com.jeido.exercisespring.entities.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -8,35 +9,35 @@ import java.util.*;
 @Service
 public class StudentService {
 
-    private final Map<UUID, Student> students;
+    private final StudentRepository studentRepository;
 
-    public StudentService() {
-        students = new HashMap<>();
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
-    public void createStudent(String lastName, String firstName, int age,String email) {
-        UUID id = UUID.randomUUID();
-        students.put(id, new Student(id, lastName, firstName, age, email));
+    public Student save(String lastName, String firstName, int age, String email) {
+        return studentRepository.save(Student.builder().surname(lastName).name(firstName).age(age).email(email).build());
     }
 
-    public Student getStudent(UUID id) {
-        return students.get(id);
+    public Student findById(UUID id) {
+        return studentRepository.findById(id).orElse(null);
     }
 
-    public List<Student> getAllStudents() {
-        return new ArrayList<>(students.values());
+    public List<Student> findAll() {
+        return studentRepository.findAll();
     }
 
-    public List<Student> getStudentsByName(String name) {
-        return students.values().stream().filter(student ->
-                student.getSurname().toLowerCase().concat(" " + student.getName().toLowerCase()).contains(name.toLowerCase())).toList();
+    public List<Student> findByNameOrSurname(String search) {
+        return studentRepository.findByNameOrSurname(search, search);
     }
 
-    public boolean deleteStudent(UUID id) {
-        return students.remove(id) != null;
+    public void delete(UUID id) {
+        Student student = findById(id);
+        if (student == null) return;
+        studentRepository.delete(student);
     }
 
-    public Student updateStudent(UUID id, Student student) {
-        return students.put(id, student);
+    public Student update(UUID id, Student student) {
+        return studentRepository.save(student);
     }
 }

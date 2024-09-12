@@ -14,16 +14,10 @@ public class MailEduConstraintValidator implements ConstraintValidator<MailEduVa
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (s == null) {
+        if (s == null || s.isBlank()) {
             return true;
         }
 
-        boolean isValid = false;
-
-
-        isValid = s.endsWith(endMail);
-
-
-        return isValid;
+        return s.endsWith(endMail);
     }
 }
