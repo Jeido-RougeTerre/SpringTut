@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:replace="~{/components/BootstrapImports}">
     <link href="/css/nav.css" rel="stylesheet">
 </head>
 <body>
@@ -13,6 +14,10 @@
             <a th:href="@{/todo}">ToDo</a>
             <a th:href="@{/student}">Students</a>
         </nav>
+        <div>
+            <a th:unless="${session.getOrDefault('isLoggedIn', false)}" href="/login" class="btn btn-light">Login</a>
+            <a th:if="${session.getOrDefault('isLoggedIn', false)}" href="/logout" class="btn btn-danger">Logout</a>
+        </div>
     </header>
 </th:block>
 </body>

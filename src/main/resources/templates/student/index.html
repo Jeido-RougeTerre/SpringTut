@@ -26,8 +26,6 @@
             <tr>
                 <th scope="col">Last Name</th>
                 <th scope="col">First Name</th>
-                <th scope="col">Age</th>
-                <th scope="col">email</th>
                 <th scope="col">Details</th>
             </tr>
             </thead>
@@ -35,8 +33,6 @@
             <tr th:each="s : ${students}">
                 <td th:text="${s.getSurname()}"></td>
                 <td th:text="${s.getName()}"></td>
-                <td th:text="${s.getAge()}"></td>
-                <td th:text="${s.getEmail()}"></td>
                 <td><a th:href="@{/student/{id}(id=${s.getId()})}" class="btn btn-outline-info">🔎</a></td>
             </tr>
             </tbody>

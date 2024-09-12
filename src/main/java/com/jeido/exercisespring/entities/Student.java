@@ -1,6 +1,5 @@
 package com.jeido.exercisespring.entities;
 
-import com.jeido.exercisespring.validation.MailEduValid;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -33,5 +32,7 @@ public class Student {
     @Email
 //    @MailEduValid // ask the mail to be ended by .edu can be null or blank
     private String email;
+
+    private String imgPath;
 
 }
