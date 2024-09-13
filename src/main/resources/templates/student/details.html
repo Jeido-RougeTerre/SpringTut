@@ -12,7 +12,9 @@
 <main>
     <div th:unless="${student == null}">
         <div class="container">
-            <form th:action="${action}" th:object="${student}" th:method="${mode.equals('info')} ? 'get' : 'post'">
+            <img th:unless="${mode.equals('add') || student.getImgPath() == null}" th:src="@{/images/{filename}(filename=${student.getImgPath()})}" th:alt="'Image of ' + ${student.getName()}">
+            <p th:if="${!mode.equals('add') && student.getImgPath() == null}">No picture</p>
+            <form th:action="${action}" th:object="${student}" th:method="${mode.equals('info')} ? 'get' : 'post'" th:enctype="${mode.equals('info')} ? 'text/plain' : 'multipart/form-data'">
                 <div class="mb-3">
                     <label for="name" class="form-label">First Name</label>
                     <input type="text" th:class="${#fields.hasErrors('name')} ? 'error form-control' : 'form-control'" id="name" th:field="*{name}" th:readonly="${mode.equals('info')}">
@@ -33,6 +35,10 @@
                     <label for="email" class="form-label">Email</label>
                     <input type="email" th:class="${#fields.hasErrors('email')} ? 'error form-control' : 'form-control'" id="email" th:field="*{email}" th:readonly="${mode.equals('info')}">
                     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+                </div>
+                <div th:unless="${mode.equals('info')}" class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" id="image" name="image">
                 </div>
                 <button th:if="${mode.equals('edit')}" type="submit" class="btn btn-primary">Save Changes</button>
                 <button th:if="${mode.equals('add')}" type="submit" class="btn btn-primary">Register</button>

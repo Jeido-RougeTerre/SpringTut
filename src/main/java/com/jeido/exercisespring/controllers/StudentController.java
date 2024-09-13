@@ -9,12 +9,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller("/student")
 public class StudentController {
+
+    public static final String IMG_LOCATION = "src/main/resources/static/images".replace("/", File.separator);
 
     private final StudentService studentService;
 
@@ -40,7 +51,8 @@ public class StudentController {
     }
 
     @PostMapping("/student/register")
-    public String addStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult, Model model) {
+    public String addStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult,
+                             Model model, @RequestParam("image") MultipartFile image) throws IOException {
         if (!loginService.isLoggedIn()) {
             return "redirect:/login";
         }
@@ -50,7 +62,33 @@ public class StudentController {
             return "student/details";
         }
 
-        Student savedStudent = studentService.save(student.getSurname(), student.getName(), student.getAge(), student.getEmail());
+        Student savedStudent;
+
+        if (image != null && !image.isEmpty()) {
+            System.out.println("Add IMG not null");
+            Path dest = Paths.get(IMG_LOCATION).resolve(Objects.requireNonNull(image.getOriginalFilename()))
+                    .toAbsolutePath();
+
+            InputStream in = image.getInputStream();
+
+            Files.copy(in, dest, StandardCopyOption.REPLACE_EXISTING);
+
+            savedStudent = studentService.save(
+                    student.getSurname(),
+                    student.getName(),
+                    student.getAge(),
+                    student.getEmail(),
+                    image.getOriginalFilename()
+            );
+        } else {
+            savedStudent = studentService.save(
+                    student.getSurname(),
+                    student.getName(),
+                    student.getAge(),
+                    student.getEmail()
+            );
+        }
+
         model.addAttribute("student", savedStudent);
         model.addAttribute("action", "");
         model.addAttribute("mode", "info");
@@ -58,7 +96,7 @@ public class StudentController {
     }
 
     @RequestMapping("/student/{id}")
-    public String student(@PathVariable("id")UUID id, Model model) {
+    public String student(@PathVariable("id") UUID id, Model model) {
         if (!loginService.isLoggedIn()) {
             return "redirect:/login";
         }
@@ -70,7 +108,7 @@ public class StudentController {
     }
 
     @RequestMapping("/student")
-    public String search(@RequestParam(name = "search", required = false)String search , Model model) {
+    public String search(@RequestParam(name = "search", required = false) String search, Model model) {
         List<Student> students;
         if (search != null) {
             students = studentService.findByNameOrSurname(search);
@@ -86,7 +124,7 @@ public class StudentController {
     }
 
     @PostMapping("/student/search")
-    public String searchPost(@ModelAttribute("search")String name) {
+    public String searchPost(@ModelAttribute("search") String name) {
         return "redirect:/student?search=" + name;
     }
 
@@ -112,7 +150,9 @@ public class StudentController {
     }
 
     @PostMapping("/student/edit/{id}")
-    public String studentEdit(@PathVariable("id") UUID id,@Valid @ModelAttribute("student") Student student, BindingResult bindingResult, Model model) {
+    public String studentEdit(@PathVariable("id") UUID id, @Valid @ModelAttribute("student") Student student,
+                              BindingResult bindingResult, @RequestParam("image") MultipartFile image, Model model
+    ) throws IOException {
         if (!loginService.isLoggedIn()) {
             return "redirect:/login";
         }
@@ -122,6 +162,17 @@ public class StudentController {
             model.addAttribute("action", "/student/edit/" + student.getId());
             return "student/details";
         }
+
+        if (image != null && !image.isEmpty()) {
+            System.out.println("edit IMG not null");
+            Path dest = Paths.get(IMG_LOCATION).resolve(Objects.requireNonNull(image.getOriginalFilename()))
+                    .toAbsolutePath();
+
+            InputStream in = image.getInputStream();
+            student.setImgPath(image.getOriginalFilename());
+            Files.copy(in, dest, StandardCopyOption.REPLACE_EXISTING);
+        }
+
         Student updatedStudent = studentService.update(student);
         model.addAttribute("student", updatedStudent);
         model.addAttribute("mode", "info");

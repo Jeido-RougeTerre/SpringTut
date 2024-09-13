@@ -15,6 +15,10 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+    public Student save(String lastName, String firstName, int age, String email, String imgPath) {
+        return studentRepository.save(Student.builder().surname(lastName).name(firstName).age(age).email(email).imgPath(imgPath).build());
+    }
+
     public Student save(String lastName, String firstName, int age, String email) {
         return studentRepository.save(Student.builder().surname(lastName).name(firstName).age(age).email(email).build());
     }
