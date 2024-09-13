@@ -180,24 +180,6 @@ public class StudentController {
         return "redirect:/student/" + id;
     }
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login/form";
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        if (loginService.login(username, password)) {
-            return "redirect:/student";
-        }
-        return "login/form";
-    }
-
-    @RequestMapping("/logout")
-    public String logout() {
-        loginService.logout();
-        return "redirect:/student";
-    }
 
 
 }

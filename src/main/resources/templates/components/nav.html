@@ -13,10 +13,11 @@
             <a th:href="@{/}">Home</a>
             <a th:href="@{/todo}">ToDo</a>
             <a th:href="@{/student}">Students</a>
+            <a th:href="@{/forum}">Forum</a>
         </nav>
         <div>
             <a th:unless="${session.getOrDefault('isLoggedIn', false)}" href="/login" class="btn btn-light">Login</a>
-            <a th:if="${session.getOrDefault('isLoggedIn', false)}" href="/logout" class="btn btn-danger">Logout</a>
+            <div th:if="${session.getOrDefault('isLoggedIn', false)}"><a href="/logout" class="btn btn-danger"><i class="bi bi-power"></i></a></div>
         </div>
     </header>
 </th:block>

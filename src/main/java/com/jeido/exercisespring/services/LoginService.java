@@ -1,5 +1,7 @@
 package com.jeido.exercisespring.services;
 
+import com.jeido.exercisespring.dao.UserRepository;
+import com.jeido.exercisespring.entities.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,14 +9,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
 
+    private final UserRepository userRepository;
+
     @Autowired
     private HttpSession session;
 
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    public LoginService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User register(String username, String password) {
+        if (userRepository.findByUsername(username) != null) {
+            return null;
+        }
+        return userRepository.save(User.builder().username(username).password(password).build());
+    }
 
     public boolean login(String username, String password) {
-        if (username.equals(USERNAME) && password.equals(PASSWORD)) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            session.setAttribute("username", null);
+            session.setAttribute("isLoggedIn", false);
+            return false;
+        }
+
+
+        session.setAttribute("username", user.getUsername());
+
+        if (password.equals(user.getPassword())) {
             session.setAttribute("isLoggedIn", true);
             return true;
         }

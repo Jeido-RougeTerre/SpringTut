@@ -5,12 +5,20 @@
     <title>Login</title>
 </head>
 <body>
- <form th:action="@{/login}" method="post">
-     <label for="username" hidden="hidden"></label>
-     <input id="username" name="username" type="text" placeholder="username">
-     <label for="password" hidden="hidden"></label>
-     <input id="password" name="password" type="text" placeholder="password">
-     <button>Login</button>
- </form>
+<header th:replace="components/nav"></header>
+<main>
+    <div class="container">
+        <h1 th:text="${mode.equals('log')} ? 'Log In :' : 'Register :'"></h1>
+        <form th:action="@{{act}(act=${mode.equals('log')}? '/login' : '/registration')}" method="post" th:object="${user}">
+            <label for="username" hidden="hidden"></label>
+            <input id="username" type="text" placeholder="username" th:field="*{username}">
+            <label for="password" hidden="hidden"></label>
+            <input id="password" type="text" placeholder="password" th:field="*{password}">
+            <button class="btn btn-primary" th:text="${mode.equals('log')} ? 'Log In' : 'Register'"></button>
+        </form>
+        <a th:if="${mode.equals('log')}" class="btn btn-secondary" th:href="@{/registration}">Create Account</a>
+        <a th:unless="${mode.equals('log')}" class="btn btn-secondary" th:href="@{/login}">I Have an Account</a>
+    </div>
+</main>
 </body>
 </html>
