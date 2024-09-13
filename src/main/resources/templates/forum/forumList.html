@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum</title>
+</head>
+<body>
+<header th:replace="~{components/nav}"></header>
+<main>
+    <div class="container">
+        <div th:each="m : ${messages}">
+            <div>
+                <p><span th:text="${m.user.username}"></span><span th:if="${message.user.getId().equals(m.user.getId())}">(You)</span></p>
+            </div>
+            <div>
+                <p th:text="${m.getContent()}"></p>
+            </div>
+        </div>
+        <div th:if="${messages.isEmpty()}">
+            <p>No messages Yet . . .</p>
+        </div>
+    </div>
+    <div class="container">
+        <form th:action="@{/forum}" method="post">
+            <label for="id" hidden="hidden"></label>
+            <input id="id" type="text" name="username" th:value="${message.user.username}" >
+            <label for="post" hidden="hidden"></label>
+            <input id="post" type="text" name="content" th:disabled="${!logged}" th:value="${!logged} ? 'Log in to post a message'">
+            <button th:if="${logged}" class="btn btn-primary"><i class="bi bi-send"></i></button>
+            <a th:unless="${logged}" th:href="@{/login}" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -31,6 +31,9 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String login(Model model) {
+        if(loginService.isLoggedIn()) {
+            return "redirect:/";
+        }
         model.addAttribute("user", User.builder().username("").password("").build());
         model.addAttribute("mode", "log");
         return "/login/form";

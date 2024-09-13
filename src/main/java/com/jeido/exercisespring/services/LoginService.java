@@ -34,9 +34,10 @@ public class LoginService {
         }
 
 
-        session.setAttribute("username", user.getUsername());
+
 
         if (password.equals(user.getPassword())) {
+            session.setAttribute("username", user.getUsername());
             session.setAttribute("isLoggedIn", true);
             return true;
         }
