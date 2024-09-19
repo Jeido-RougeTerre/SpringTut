@@ -1,5 +1,6 @@
 package com.jeido.exercisespring.controllers;
 
+import com.jeido.exercisespring.dto.StudentDtoReceive;
 import com.jeido.exercisespring.entities.Student;
 import com.jeido.exercisespring.services.LoginService;
 import com.jeido.exercisespring.services.StudentService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,7 +53,7 @@ public class StudentController {
     }
 
     @PostMapping("/student/register")
-    public String addStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult,
+    public String addStudent(@Validated @ModelAttribute("student") StudentDtoReceive student, BindingResult bindingResult,
                              Model model, @RequestParam("image") MultipartFile image) throws IOException {
         if (!loginService.isLoggedIn()) {
             return "redirect:/login";
@@ -73,20 +75,9 @@ public class StudentController {
 
             Files.copy(in, dest, StandardCopyOption.REPLACE_EXISTING);
 
-            savedStudent = studentService.save(
-                    student.getSurname(),
-                    student.getName(),
-                    student.getAge(),
-                    student.getEmail(),
-                    image.getOriginalFilename()
-            );
+            savedStudent = studentService.save(student, image.getOriginalFilename());
         } else {
-            savedStudent = studentService.save(
-                    student.getSurname(),
-                    student.getName(),
-                    student.getAge(),
-                    student.getEmail()
-            );
+            savedStudent = studentService.save(student);
         }
 
         model.addAttribute("student", savedStudent);

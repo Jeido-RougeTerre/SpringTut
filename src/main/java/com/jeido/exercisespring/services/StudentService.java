@@ -1,6 +1,7 @@
 package com.jeido.exercisespring.services;
 
 import com.jeido.exercisespring.dao.StudentRepository;
+import com.jeido.exercisespring.dto.StudentDtoReceive;
 import com.jeido.exercisespring.entities.Student;
 import org.springframework.stereotype.Service;
 
@@ -15,24 +16,37 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Student save(String lastName, String firstName, int age, String email, String imgPath) {
-        return studentRepository.save(Student.builder().surname(lastName).name(firstName).age(age).email(email).imgPath(imgPath).build());
+    public Student save(StudentDtoReceive studentDtoReceive) {
+        Student student = Student.builder()
+                .name(studentDtoReceive.getName())
+                .surname(studentDtoReceive.getSurname())
+                .email(studentDtoReceive.getEmail())
+                .age(studentDtoReceive.getAge())
+                .build();
+        return studentRepository.save(student);
     }
 
-    public Student save(String lastName, String firstName, int age, String email) {
-        return studentRepository.save(Student.builder().surname(lastName).name(firstName).age(age).email(email).build());
+    public Student save(StudentDtoReceive studentDtoReceive, String imgPath) {
+        Student student = Student.builder()
+                .name(studentDtoReceive.getName())
+                .surname(studentDtoReceive.getSurname())
+                .email(studentDtoReceive.getEmail())
+                .age(studentDtoReceive.getAge())
+                .imgPath(imgPath)
+                .build();
+        return studentRepository.save(student);
     }
 
     public Student findById(UUID id) {
-        return studentRepository.findById(id).orElse(null);
+        return studentRepository.findById(id).orElseThrow();
     }
 
     public List<Student> findAll() {
-        return studentRepository.findAll();
+        return (List<Student>) studentRepository.findAll();
     }
 
     public List<Student> findByNameOrSurname(String search) {
-        return studentRepository.findByNameIgnoreCaseOrSurnameIgnoreCase(search, search);
+        return studentRepository.findByNameLikeIgnoreCaseOrSurnameLikeIgnoreCase(search, search);
     }
 
     public void delete(UUID id) {

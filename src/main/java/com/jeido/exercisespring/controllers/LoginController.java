@@ -25,6 +25,9 @@ public class LoginController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("user") User user) {
+        if(loginService.isLoggedIn()) {
+            return "redirect:/";
+        }
         loginService.register(user.getUsername(), user.getPassword());
         return "redirect:/";
     }
