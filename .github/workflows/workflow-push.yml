@@ -13,4 +13,4 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
       - name: build
-        run: java ExerciseSpringApplication.java
+        run: java ./src/main/java/com/jeido/exercisespring/ExerciseSpringApplication.java
