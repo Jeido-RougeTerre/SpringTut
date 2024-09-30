@@ -11,6 +11,6 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
-          java-version: '17.0.12'
+          java-version: '17'
       - name: build
         run: java ExerciseSpringApplication.java
