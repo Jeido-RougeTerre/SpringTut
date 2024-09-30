@@ -1,0 +1,16 @@
+name: workflow-push.yml
+on: push
+
+jobs:
+  push-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get app
+        uses: actions/checkout@v4
+      - name: get jdk
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17.0.12'
+      - name: build
+        run: java ExerciseSpringApplication.java
