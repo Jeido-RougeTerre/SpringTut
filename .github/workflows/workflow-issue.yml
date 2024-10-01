@@ -1,0 +1,16 @@
+name: workflow-issue.yml
+on:
+  issues:
+    types:
+      - opened
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: issue auto-response
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: gh issue comment $ISSUE_URL --body "Thanks for opening an issue out team will respond to you soon."
