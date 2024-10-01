@@ -5,6 +5,13 @@ jobs:
   push-job:
     runs-on: ubuntu-latest
     steps:
+      - name: postgres setup
+        uses: ikalnytskyi/action-setup-postgres@v6
+        with:
+          username: 'postgres'
+          password: 'root'
+          database: 'student'
+          port: '5432'
       - name: get app
         uses: actions/checkout@v4
       - name: get jdk
