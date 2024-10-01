@@ -6,6 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo
-        env:
-          FORKER: ${{ github.actor }}
-        run: echo "$FORKER has forked the project"
+        run: echo "project has been forked by ${{ github.actor }}"
