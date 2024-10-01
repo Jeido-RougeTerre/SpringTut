@@ -7,5 +7,5 @@ jobs:
     steps:
       - name: echo
         env:
-          FORKER: ${{ github.event.fork.owner.login }}
+          FORKER: ${{ github.actor }}
         run: echo "$FORKER has forked the project"
