@@ -5,21 +5,21 @@ jobs:
   push-job:
     runs-on: ubuntu-latest
     steps:
-      - name: postgres setup
+      - name: Database Driver Setup
         uses: ikalnytskyi/action-setup-postgres@v6
         with:
           username: '${{ secrets.DB_USERNAME }}'
           password: '${{ secrets.DB_PASSWORD }}'
           database: '${{ secrets.DB_DATABASE }}'
           port: '${{ secrets.DB_PORT }}'
-      - name: get app
+      - name: Get app
         uses: actions/checkout@v4
-      - name: get jdk
+      - name: Get jdk
         uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
           java-version: '17'
-      - name: create secret
+      - name: Create Secret
         run: printf "spring.datasource.url=jdbc:postgresql://localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}\nspring.datasource.username=${{ secrets.DB_USERNAME }}\nspring.datasource.password=${{ secrets.DB_PASSWORD }}" >> ./src/main/resources/application-secret.properties
       - name: Restore Maven cache
         uses: skjolber/maven-cache-github-action@v3.1.1
@@ -31,7 +31,20 @@ jobs:
         uses: skjolber/maven-cache-github-action@v3.1.1
         with:
            step: save
-      - name: install dependencies
+      - name: Install dependencies
         run: mvn install
       - name: build
         run: mvn package
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'spring_tut'
+          path: staging
+  download-job:
+    runs-on: ubuntu-latest
+    needs: push-job
+    steps:
+      - name: Downloading Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: 'spring_tut'
