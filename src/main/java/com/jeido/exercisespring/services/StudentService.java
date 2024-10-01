@@ -57,10 +57,11 @@ public class StudentService {
 
     public Student update(UUID id, StudentDtoReceive student) {
         Student studentToUpdate = findById(id);
-        studentToUpdate.setName(student.getName());
-        studentToUpdate.setSurname(student.getSurname());
-        studentToUpdate.setEmail(student.getEmail());
+        if (student.getName() != null) studentToUpdate.setName(student.getName());
+        if (student.getSurname() != null) studentToUpdate.setSurname(student.getSurname());
+        if (student.getEmail() != null) studentToUpdate.setEmail(student.getEmail());
         studentToUpdate.setAge(student.getAge());
+        if (student.getImgPath() != null) studentToUpdate.setImgPath(student.getImgPath());
 
         return studentRepository.save(studentToUpdate);
     }
