@@ -8,10 +8,10 @@ jobs:
       - name: postgres setup
         uses: ikalnytskyi/action-setup-postgres@v6
         with:
-          username: 'postgres'
-          password: 'root'
-          database: 'student'
-          port: '5432'
+          username: '${{ secrets.DB_USERNAME }}'
+          password: '${{ secrets.DB_PASSWORD }}'
+          database: '${{ secrets.DB_DATABASE }}'
+          port: '${{ secrets.DB_PORT }}'
       - name: get app
         uses: actions/checkout@v4
       - name: get jdk
