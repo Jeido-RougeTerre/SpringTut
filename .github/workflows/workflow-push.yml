@@ -19,6 +19,9 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
+      - name: create secret
+        run: printf "spring.datasource.url=jdbc:postgresql://localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}\nspring.datasource.username=${{ secrets.DB_USERNAME }}\nspring.datasource.password=${{ secrets.DB_PASSWORD }}" >> ./src/main/resources/application-secret.properties
+
       - name: install dependencies
         run: mvn install
       - name: build
