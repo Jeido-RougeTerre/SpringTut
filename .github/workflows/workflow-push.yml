@@ -26,9 +26,13 @@ jobs:
         run: mvn install
       - name: build
         run: mvn --batch-mode --update-snapshots verify
+      - name: Test
+        run: mvn test
+        continue-on-error: true
       - name: Creating staging directory
         run: mkdir staging && cp target/*.jar staging
       - name: Upload Artifact
+        if: success() && github.ref == 'refs/head/main'
         uses: actions/upload-artifact@v4
         with:
           name: 'spring_tut'
