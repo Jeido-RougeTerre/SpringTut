@@ -12,5 +12,7 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
+      - name: : install dependencies
+          run: mvn install
       - name: build
-        run: java ./src/main/java/com/jeido/exercisespring/ExerciseSpringApplication.java
+        run: mvn package
