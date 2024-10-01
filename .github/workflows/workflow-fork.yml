@@ -8,4 +8,4 @@ jobs:
       - name: echo
         env:
           FORKER: ${{ github.event.fork.owner.login }}
-        run: echo "$Forker has forked the project"
+        run: echo "$FORKER has forked the project"
