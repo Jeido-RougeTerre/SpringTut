@@ -21,7 +21,16 @@ jobs:
           java-version: '17'
       - name: create secret
         run: printf "spring.datasource.url=jdbc:postgresql://localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}\nspring.datasource.username=${{ secrets.DB_USERNAME }}\nspring.datasource.password=${{ secrets.DB_PASSWORD }}" >> ./src/main/resources/application-secret.properties
-
+      - name: Restore Maven cache
+        uses: skjolber/maven-cache-github-action@v3.1.1
+        with:
+          step: restore
+      - name: Build hello-world application with Maven
+        run: mvn --batch-mode --update-snapshots verify
+      - name: Save Maven cache
+        uses: skjolber/maven-cache-github-action@v3.1.1
+        with:
+           step: save
       - name: install dependencies
         run: mvn install
       - name: build
