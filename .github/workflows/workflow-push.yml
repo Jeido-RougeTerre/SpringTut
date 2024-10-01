@@ -12,7 +12,7 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
-      - name: : install dependencies
-          run: mvn install
+      - name: install dependencies
+        run: mvn install
       - name: build
         run: mvn package
