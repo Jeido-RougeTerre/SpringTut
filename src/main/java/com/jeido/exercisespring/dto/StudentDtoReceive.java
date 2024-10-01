@@ -24,7 +24,9 @@ public class StudentDtoReceive {
     @Size(max = 255)
     private String email;
 
+    private String imgPath;
+
     public static StudentDtoReceive of(Student student) {
-        return new StudentDtoReceive(student.getName(), student.getSurname(), student.getAge(), student.getEmail());
+        return new StudentDtoReceive(student.getName(), student.getSurname(), student.getAge(), student.getEmail(), student.getImgPath());
     }
 }

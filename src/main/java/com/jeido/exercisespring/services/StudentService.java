@@ -55,7 +55,13 @@ public class StudentService {
         studentRepository.delete(student);
     }
 
-    public Student update(Student student) {
-        return studentRepository.save(student);
+    public Student update(UUID id, StudentDtoReceive student) {
+        Student studentToUpdate = findById(id);
+        studentToUpdate.setName(student.getName());
+        studentToUpdate.setSurname(student.getSurname());
+        studentToUpdate.setEmail(student.getEmail());
+        studentToUpdate.setAge(student.getAge());
+
+        return studentRepository.save(studentToUpdate);
     }
 }

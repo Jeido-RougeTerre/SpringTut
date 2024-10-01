@@ -48,4 +48,17 @@ public class StudentApiController {
         StudentDtoSend studentDtoSend = StudentDtoSend.of(student);
         return new ResponseEntity<>(studentDtoSend, HttpStatus.CREATED);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<StudentDtoSend> createStudent(@Validated @RequestBody StudentDtoReceive studentDtoReceive, @PathVariable("id")UUID id) {
+        Student student = studentService.update(id, studentDtoReceive);
+        StudentDtoSend studentDtoSend = StudentDtoSend.of(student);
+        return new ResponseEntity<>(studentDtoSend, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<List<StudentDtoSend>> deleteStudent(@PathVariable("id")UUID id) {
+        studentService.delete(id);
+        return getStudents();
+    }
 }

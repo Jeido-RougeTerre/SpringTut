@@ -141,7 +141,7 @@ public class StudentController {
     }
 
     @PostMapping("/student/edit/{id}")
-    public String studentEdit(@PathVariable("id") UUID id, @Valid @ModelAttribute("student") Student student,
+    public String studentEdit(@PathVariable("id") UUID id, @Valid @ModelAttribute("student") StudentDtoReceive student,
                               BindingResult bindingResult, @RequestParam("image") MultipartFile image, Model model
     ) throws IOException {
         if (!loginService.isLoggedIn()) {
@@ -150,7 +150,7 @@ public class StudentController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("mode", "edit");
             model.addAttribute("student", student);
-            model.addAttribute("action", "/student/edit/" + student.getId());
+            model.addAttribute("action", "/student/edit/" + id);
             return "student/details";
         }
 
@@ -164,7 +164,7 @@ public class StudentController {
             Files.copy(in, dest, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        Student updatedStudent = studentService.update(student);
+        Student updatedStudent = studentService.update(id, student);
         model.addAttribute("student", updatedStudent);
         model.addAttribute("mode", "info");
         model.addAttribute("action", "");
