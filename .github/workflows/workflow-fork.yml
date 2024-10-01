@@ -1,0 +1,11 @@
+name: workflow-fork.yml
+on: fork
+
+jobs:
+  fork-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        env:
+          FORKER: ${{ github.event.fork.owner.login }}
+        run: echo "$Forker has forked the project"
